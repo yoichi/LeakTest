@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeakTest", "LeakTest.vcproj", "{307FF58C-8DC0-4873-9BD9-0C2D0BA201FC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4F6A51C9-8FC2-4764-B2DE-309B381F39F2} = {4F6A51C9-8FC2-4764-B2DE-309B381F39F2}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LeakyLib", "LeakyLib\LeakyLib.vcproj", "{4F6A51C9-8FC2-4764-B2DE-309B381F39F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{307FF58C-8DC0-4873-9BD9-0C2D0BA201FC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{307FF58C-8DC0-4873-9BD9-0C2D0BA201FC}.Debug|Win32.Build.0 = Debug|Win32
+		{307FF58C-8DC0-4873-9BD9-0C2D0BA201FC}.Release|Win32.ActiveCfg = Release|Win32
+		{307FF58C-8DC0-4873-9BD9-0C2D0BA201FC}.Release|Win32.Build.0 = Release|Win32
+		{4F6A51C9-8FC2-4764-B2DE-309B381F39F2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4F6A51C9-8FC2-4764-B2DE-309B381F39F2}.Debug|Win32.Build.0 = Debug|Win32
+		{4F6A51C9-8FC2-4764-B2DE-309B381F39F2}.Release|Win32.ActiveCfg = Release|Win32
+		{4F6A51C9-8FC2-4764-B2DE-309B381F39F2}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
