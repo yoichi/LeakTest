@@ -6,6 +6,18 @@
 #endif
 
 namespace LeakTest {
+	ref class ManagedObject
+	{
+	private:
+		array<char> ^data_;
+	public:
+		ManagedObject(int size)
+		{
+			data_ = gcnew array<char>(size);
+			Array::Clear(data_, 0, size);
+		}
+	};
+
 	System::Void Form1::CrtSetDbgFlag()
 	{
 #ifdef _DEBUG
@@ -17,6 +29,7 @@ namespace LeakTest {
 
 	System::Void Form1::CreateProduct()
 	{
+		gcobj = gcnew System::Collections::Generic::List<System::Object^>();
 		product = CFactory::createProduct();
 	}
 
@@ -25,29 +38,48 @@ namespace LeakTest {
 		CFactory::deleteProduct(product);
 	}
 
-	System::Void Form1::allocate(AllocationType type)
+	bool Form1::GetParameter(int &size, int &count, bool &referred)
 	{
-		int size, count;
 		try
 		{
 			size= int::Parse(this->sizeInput->Text);
+			if (size <= 0)
+			{
+				MessageBox::Show("Zero or negative size");
+				return false;
+			}
 		}
 		catch (Exception^)
 		{
 			MessageBox::Show("Invalid size");
-			return;
+			return false;
 		}
 		try
 		{
 			count = int::Parse(this->countInput->Text);
+			if (count <= 0)
+			{
+				MessageBox::Show("Zero or negative count");
+				return false;
+			}
 		}
 		catch (Exception^)
 		{
 			MessageBox::Show("Invalid count");
-			return;
+			return false;
 		}
-		bool referred = this->haveReference->Checked;
-		product->Create(type, size, count, referred);
+		referred = this->haveReference->Checked;
+		return true;
+	}
+
+	System::Void Form1::allocate(AllocationType type)
+	{
+		int size, count;
+		bool referred;
+		if (GetParameter(size, count, referred))
+		{
+			product->Create(type, size, count, referred);
+		}
 	}
 
 	System::Void Form1::doVirtualAlloc_Click(System::Object^ /*sender*/, System::EventArgs^ /*e*/)
@@ -63,5 +95,22 @@ namespace LeakTest {
 	System::Void Form1::doNew_Click(System::Object^ /*sender*/, System::EventArgs^ /*e*/)
 	{
 		allocate(AllocationType_New);
+	}
+
+	System::Void Form1::doGCNew_Click(System::Object^ /*sender*/, System::EventArgs^ /*e*/)
+	{
+		int size, count;
+		bool referred;
+		if (GetParameter(size, count, referred))
+		{
+			for (int i = 0; i < count; i++)
+			{
+				ManagedObject ^obj = gcnew ManagedObject(size);
+				if (referred)
+				{
+					gcobj->Add(obj);
+				}
+			}
+		}
 	}
 }

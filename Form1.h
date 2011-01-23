@@ -51,6 +51,9 @@ namespace LeakTest {
 	private: System::Windows::Forms::Button^  doMalloc;
 	private: System::Windows::Forms::Button^  doNew;
 	private: System::Windows::Forms::CheckBox^  haveReference;
+	private: System::Windows::Forms::Button^  doGCNew;
+
+
 
 
 
@@ -79,6 +82,7 @@ namespace LeakTest {
 			this->doMalloc = (gcnew System::Windows::Forms::Button());
 			this->doNew = (gcnew System::Windows::Forms::Button());
 			this->haveReference = (gcnew System::Windows::Forms::CheckBox());
+			this->doGCNew = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// sizeLabel
@@ -153,11 +157,22 @@ namespace LeakTest {
 			this->haveReference->Text = L"reference";
 			this->haveReference->UseVisualStyleBackColor = true;
 			// 
+			// doGCNew
+			// 
+			this->doGCNew->Location = System::Drawing::Point(176, 96);
+			this->doGCNew->Name = L"doGCNew";
+			this->doGCNew->Size = System::Drawing::Size(75, 23);
+			this->doGCNew->TabIndex = 8;
+			this->doGCNew->Text = L"GCNew";
+			this->doGCNew->UseVisualStyleBackColor = true;
+			this->doGCNew->Click += gcnew System::EventHandler(this, &Form1::doGCNew_Click);
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(263, 98);
+			this->ClientSize = System::Drawing::Size(263, 126);
+			this->Controls->Add(this->doGCNew);
 			this->Controls->Add(this->haveReference);
 			this->Controls->Add(this->doNew);
 			this->Controls->Add(this->doMalloc);
@@ -166,6 +181,7 @@ namespace LeakTest {
 			this->Controls->Add(this->sizeInput);
 			this->Controls->Add(this->countLabel);
 			this->Controls->Add(this->sizeLabel);
+			this->MaximizeBox = false;
 			this->Name = L"Form1";
 			this->Text = L"LeakTest";
 			this->ResumeLayout(false);
@@ -176,12 +192,15 @@ namespace LeakTest {
 	private:
 		System::Void Form1::CrtSetDbgFlag();
 		IProduct *product;
+		System::Collections::Generic::List<System::Object^> ^gcobj;
 		System::Void CreateProduct();
 		System::Void DeleteProduct();
+		bool GetParameter(int &size, int &count, bool &referred);
 		System::Void allocate(AllocationType type);
 		System::Void doVirtualAlloc_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void doMalloc_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void doNew_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void doGCNew_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }
 
